@@ -126,7 +126,7 @@ const ZenToBath = () => {
             <Radio.Group options={vat} onChange={onChangeVat} value={vatValue} optionType="button" buttonStyle="solid" /> <span>%</span>
             </Col>
         </Col>
-        <h2>เงินที่ได้จากการขาย M : {result || '0'} บาท</h2>
+        <h2>แปลงได้: <span className="custom-input">{result || '0'}</span> บาท</h2>
      </Row>
     );
   };
