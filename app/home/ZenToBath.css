@@ -1,0 +1,26 @@
+/* ZenToBath.css */
+.custom-input {
+    /* Default input styling here */
+    color: #000;
+    font-weight: bold;
+  }
+  
+.yellow-text {
+    color: yellow;
+    font-weight: bold;
+}
+  
+.blue-text {
+    color: blue;
+    font-weight: bold;
+}
+
+.pink-text {
+    color: rgb(245, 85, 245);
+    font-weight: bold;
+}
+
+.orange-text {
+    color: rgb(255, 119, 0);
+    font-weight: bold;
+}
