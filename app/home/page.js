@@ -15,12 +15,15 @@ const ZenToBath = () => {
   const [bathPerZen, setBathPerZen] = useState(0);
   const [stateDisplay, setStateDisplay] = useState('zen');
 
+  const [zenNoVat, setZenNoVat] = useState(0);
+
   useEffect(() => {
     if (stateDisplay === 'zen') {
       // Calculate the result whenever zen, bath, or vatValue changes
       const BpZ = (zen - (zen * vatValue / 100)) / 1000000;
       const zenToBath = BpZ * bath;
-
+      let zenNoVat = zen - (zen * vatValue / 100);
+      setZenNoVat(formatNumber(zenNoVat.toFixed(0)));
       if (zenToBath < 1) {
         setResult(0);
       } else {
@@ -112,6 +115,20 @@ const ZenToBath = () => {
         </Col>
         <Col span={24}>
             <Col span={6}>
+            <h2>ภาษี</h2>
+            <Radio.Group options={vat} onChange={onChangeVat} value={vatValue} optionType="button" buttonStyle="solid" /> <span>%</span>
+            </Col>
+            < Col span={6}>
+                <h2>หลังหักภาษี</h2>
+                <Input
+                    type="text"
+                    value={zenNoVat}
+                    className={`custom-input ${setZenInputColorClass('zenNoVat')}`}
+                />
+            </Col>
+        </Col>
+        <Col span={24}>
+            <Col span={6}>
             <h2>ราคาเงิน M</h2>
             <Input
             type="number"
@@ -120,30 +137,41 @@ const ZenToBath = () => {
             />
             </Col>
         </Col>
-        <Col span={24}>
-            <Col span={6}>
-            <h2>ภาษี</h2>
-            <Radio.Group options={vat} onChange={onChangeVat} value={vatValue} optionType="button" buttonStyle="solid" /> <span>%</span>
-            </Col>
-        </Col>
         <h2>แปลงได้: <span className="custom-input">{result || '0'}</span> บาท</h2>
      </Row>
     );
   };
 
-  const setZenInputColorClass = () => {
-    let zenShowNoCommas = zenShow.toString().replace(/,/g, ''); // Remove existing commas
-    console.log(zenShowNoCommas);
-    if (zenShowNoCommas >= 100000000) {
-      return 'orange-text';
-    } else if (zenShowNoCommas >= 10000000) {
-      return 'pink-text';
-    } else if (zenShowNoCommas >= 1000000) {
-      return 'blue-text';
-    } else if (zenShowNoCommas >= 100000) {
-      return 'yellow-text';
+  const setZenInputColorClass = (mode) => {
+
+    if (mode === 'zen') {
+        let zenShowNoCommas = zenShow.toString().replace(/,/g, ''); // Remove existing commas
+        console.log(zenShowNoCommas);
+        if (zenShowNoCommas >= 100000000) {
+          return 'orange-text';
+        } else if (zenShowNoCommas >= 10000000) {
+          return 'pink-text';
+        } else if (zenShowNoCommas >= 1000000) {
+          return 'blue-text';
+        } else if (zenShowNoCommas >= 100000) {
+          return 'yellow-text';
+        }
+        return ''; // Default class
+    }else{
+        let zenShowNoCommas = zenNoVat.toString().replace(/,/g, ''); // Remove existing commas
+        console.log(zenShowNoCommas);
+        if (zenShowNoCommas >= 100000000) {
+          return 'orange-text';
+        } else if (zenShowNoCommas >= 10000000) {
+          return 'pink-text';
+        } else if (zenShowNoCommas >= 1000000) {
+          return 'blue-text';
+        } else if (zenShowNoCommas >= 100000) {
+          return 'yellow-text';
+        }
+        return ''; // Default class
     }
-    return ''; // Default class
+    
   };
 
   const bathToZen = () => {
@@ -178,7 +206,7 @@ const ZenToBath = () => {
                     <Radio.Group options={vat} onChange={onChangeVat} value={vatValue} optionType="button" buttonStyle="solid" /> <span>%</span>
                 </Col>
             </Col>
-        <h2>จำนวน Zen ที่แลกได้: <span className={`custom-input ${setZenInputColorClass()}`}>{zenShow || '0'}</span> Zen</h2>
+        <h2>จำนวน Zen ที่แลกได้: <span className={`custom-input ${setZenInputColorClass('zen')}`}>{zenShow || '0'}</span> Zen</h2>
       </Row>
     );
 
